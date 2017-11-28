@@ -129,8 +129,6 @@ namespace PictureView.ViewModels
         public static int DownloadFromFTP(List<Tuple<string, string>> Source, List<string> Difference, String User, String Pass, String Path)
         {
             var query = Source.Where(t => Difference.Contains(t.Item1));
-            //MessageBox.Show(query.Count().ToString());
-            //File.WriteAllLines("C:\\Test\\BuzzListDownload.txt", query);
 
             int Count = 0;
             using (WebClient ftpClient = new WebClient())
