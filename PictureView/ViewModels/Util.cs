@@ -18,10 +18,7 @@ namespace PictureView.ViewModels
         public static void SaveImage(string imagePath, string savedName, string savedPath, int width = 0, int height = 0)
         {
             Image originalImage = Image.FromFile(imagePath);
-            //string filePath = AppDomain.CurrentDomain.BaseDirectory + savedName;
             string filePath = savedPath + "\\" + savedName;
-            //MessageBox.Show(filePath);
-            //string filePath = @"F:\Test300\" + savedName;
 
             if (width > 0 && height > 0)
             {
