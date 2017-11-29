@@ -25,59 +25,6 @@ namespace PictureView
 
             Util myFunctions = new Util();
 
-            string[] args = Environment.GetCommandLineArgs();
-            if (args.Length > 1 && args[1].ToString().ToLower() == "sportvisionbih")
-            {
-                //Step01:btnScanFTP_Click
-                lSource = Util.scanFTP(tbFTPIP1.Text, tbFTPUser1.Text, tbFTPPassword1.Text);
-                //lSource = Util.scanFTP(lFTPIP, lFTPUser, lFTPPassword);
-                //Step02:btnScanDestination_Click
-                lDestination = Util.scanDestination(tbDestination.Text, "jpg");
-                //Step03:btnDifference_Click
-                lDiff = Util.DifferenceSourceDestination(lSource, lDestination);
-                //Step04:btnERPItem_Click
-                DatabaseManager dbManager = new DatabaseManager();
-                lERPItem = dbManager.LoadData();
-                //Step05:btnDifferenceERP_Click
-                lFTP = Util.DifferenceERPDifference(lERPItem, lDiff);
-                //Step06:btnDownloadFTP_Click
-                int i = Util.DownloadFromFTP(lSource, lFTP, tbFTPUser1.Text, tbFTPPassword1.Text, tbDestinationFTP.Text);
-                //Step07:btnResizePicture_Click
-                int j = Util.ResizePicture(tbDestinationFTP.Text, "jpg", tbResizePicture.Text, Convert.ToInt32(tbResWidth.Text), Convert.ToInt32(tbResHeight.Text));
-                int k = Util.CopyResizedPicture(tbResizePicture.Text, tbDestination.Text, "jpg");
-
-                myToAL.Add(tbTo.Text);
-                myFunctions.SendMail(tbFrom.Text, tbFromName.Text, myToAL, tbSubject.Text, tbBody.Text);
-
-                Environment.Exit(0);
-            }
-
-            if (args.Length > 1 && args[1].ToString().ToLower() == "buzz")
-            {
-                //Step01:btnScanFTP_Click
-                lSource = Util.scanFTP(tbFTPIP.Text, tbFTPUser.Text, tbFTPPassword.Text);
-                //lSource = Util.scanFTP(lFTPIP, lFTPUser, lFTPPassword);
-                //Step02:btnScanDestination_Click
-                lDestination = Util.scanDestination(tbDestination.Text, "jpg");
-                //Step03:btnDifference_Click
-                lDiff = Util.DifferenceSourceDestination(lSource, lDestination);
-                //Step04:btnERPItem_Click
-                DatabaseManager dbManager = new DatabaseManager();
-                lERPItem = dbManager.LoadData();
-                //Step05:btnDifferenceERP_Click
-                lFTP = Util.DifferenceERPDifference(lERPItem, lDiff);
-                //Step06:btnDownloadFTP_Click
-                int i = Util.DownloadFromFTP(lSource, lFTP, tbFTPUser.Text, tbFTPPassword.Text, tbDestinationFTP.Text);
-                //Step07:btnResizePicture_Click
-                int j = Util.ResizePicture(tbDestinationFTP.Text, "jpg", tbResizePicture.Text, Convert.ToInt32(tbResWidth.Text), Convert.ToInt32(tbResHeight.Text));
-                int k = Util.CopyResizedPicture(tbResizePicture.Text, tbDestination.Text, "jpg");
-
-                myToAL.Add(tbTo.Text);
-                myFunctions.SendMail(tbFrom.Text, tbFromName.Text, myToAL, tbSubject.Text, tbBody.Text);
-
-                Environment.Exit(0);
-            }
-
             //kupljenje neophodnih parametara za slanje emaila
             tbMailServer.Text = myFunctions.FindBookmarkMail("MAILSERVER");
             tbMailServerPort.Text = myFunctions.FindBookmarkMail("MAILPORT");
@@ -87,6 +34,71 @@ namespace PictureView
             tbSubject.Text = myFunctions.FindBookmarkMail("MAILSUBJECT");
             tbBody.Text = myFunctions.FindBookmarkMail("MAILBODY01");
 
+
+            string[] args = Environment.GetCommandLineArgs();
+            if (args.Length > 1 && args[1].ToString().ToLower() == "sportvisionbih")
+            {
+                //Step01:btnScanFTP_Click
+                lSource = Util.scanFTP(tbFTPIP1.Text, tbFTPUser1.Text, tbFTPPassword1.Text);
+                //lSource = Util.scanFTP(lFTPIP, lFTPUser, lFTPPassword);
+
+                //Step02:btnScanDestination_Click
+                lDestination = Util.scanDestination(tbDestination.Text, "jpg");
+
+                //Step03:btnDifference_Click
+                lDiff = Util.DifferenceSourceDestination(lSource, lDestination);
+
+                //Step04:btnERPItem_Click
+                DatabaseManager dbManager = new DatabaseManager();
+                lERPItem = dbManager.LoadData();
+                
+                //Step05:btnDifferenceERP_Click
+                lFTP = Util.DifferenceERPDifference(lERPItem, lDiff);
+
+                //Step06:btnDownloadFTP_Click
+                int i = Util.DownloadFromFTP(lSource, lFTP, tbFTPUser1.Text, tbFTPPassword1.Text, tbDestinationFTP.Text);
+
+                //Step07:btnResizePicture_Click
+                int j = Util.ResizePicture(tbDestinationFTP.Text, "jpg", tbResizePicture.Text, Convert.ToInt32(tbResWidth.Text), Convert.ToInt32(tbResHeight.Text));
+                int k = Util.CopyResizedPicture(tbResizePicture.Text, tbDestination.Text, "jpg");
+
+                myToAL.Add(tbTo.Text);
+                myFunctions.SendMail(tbFrom.Text, tbFromName.Text, myToAL, tbSubject.Text + " SportVision", tbBody.Text + " " + k.ToString());
+
+                Environment.Exit(0);
+            }
+
+            if (args.Length > 1 && args[1].ToString().ToLower() == "buzz")
+            {
+                //Step01:btnScanFTP_Click
+                lSource = Util.scanFTP(tbFTPIP.Text, tbFTPUser.Text, tbFTPPassword.Text);
+                //lSource = Util.scanFTP(lFTPIP, lFTPUser, lFTPPassword);
+
+                //Step02:btnScanDestination_Click
+                lDestination = Util.scanDestination(tbDestination.Text, "jpg");
+                
+                //Step03:btnDifference_Click
+                lDiff = Util.DifferenceSourceDestination(lSource, lDestination);
+                
+                //Step04:btnERPItem_Click
+                DatabaseManager dbManager = new DatabaseManager();
+                lERPItem = dbManager.LoadData();
+                
+                //Step05:btnDifferenceERP_Click
+                lFTP = Util.DifferenceERPDifference(lERPItem, lDiff);
+                
+                //Step06:btnDownloadFTP_Click
+                int i = Util.DownloadFromFTP(lSource, lFTP, tbFTPUser.Text, tbFTPPassword.Text, tbDestinationFTP.Text);
+                
+                //Step07:btnResizePicture_Click
+                int j = Util.ResizePicture(tbDestinationFTP.Text, "jpg", tbResizePicture.Text, Convert.ToInt32(tbResWidth.Text), Convert.ToInt32(tbResHeight.Text));
+                int k = Util.CopyResizedPicture(tbResizePicture.Text, tbDestination.Text, "jpg");
+
+                myToAL.Add(tbTo.Text);
+                myFunctions.SendMail(tbFrom.Text, tbFromName.Text, myToAL, tbSubject.Text + " BUZZ", tbBody.Text + " " + k.ToString());
+
+                Environment.Exit(0);
+            }
         }
 
         public int Count = 0;
@@ -201,18 +213,6 @@ namespace PictureView
 
         private void btnScanDestination_Click(object sender, EventArgs e)
         {
-            if(tbDestination.Text == string.Empty)
-            {
-                MessageBox.Show("Destination folder is empty.");
-                return;
-            }
-
-            if (!Directory.Exists(tbDestination.Text))
-            {
-                MessageBox.Show("Destination doesn't exists");
-                return;
-            }
-
             SetNotes("Started Scan Destination");
 
             lDestination = Util.scanDestination(tbDestination.Text, "jpg");
@@ -232,7 +232,7 @@ namespace PictureView
 
             if (rbBUZZ.Checked == true)
             {
-                if (tbFTPIP.Text == string.Empty || tbFTPUser.Text == string.Empty || tbFTPPassword.Text == string.Empty )
+                if (tbFTPIP.Text == string.Empty || tbFTPUser.Text == string.Empty || tbFTPPassword.Text == string.Empty)
                 {
                     MessageBox.Show("You must enter parameter for connection to BUZZ FTP");
                     return;
@@ -249,16 +249,7 @@ namespace PictureView
 
             SetNotes("Started Scan FTP");
 
-            if(lFTPIP != string.Empty && lFTPUser != string.Empty && lFTPPassword != string.Empty)
-            {
-                lSource = Util.scanFTP(lFTPIP, lFTPUser, lFTPPassword);
-            }
-            else
-            {
-                MessageBox.Show("You must enter parameter for connection on FTP");
-                return;
-            }
-            
+            lSource = Util.scanFTP(lFTPIP, lFTPUser, lFTPPassword);
 
             tbCountFTP.Text = lSource.Count.ToString();
 
@@ -267,12 +258,6 @@ namespace PictureView
 
         private void btnDifference_Click(object sender, EventArgs e)
         {
-            if (lSource.Count() == 0)
-            {
-                MessageBox.Show("Source folder is empty.");
-                return;
-            }
-
             SetNotes("Started Difference FTP-Dest ");
 
             lDiff = Util.DifferenceSourceDestination(lSource, lDestination);
@@ -307,29 +292,9 @@ namespace PictureView
         //obrisati postojeće slike u ovom katalogu
         private void btnDownloadFTP_Click(object sender, EventArgs e)
         {
-            if (tbDestinationFTP.Text == string.Empty)
-            {
-                MessageBox.Show("Destination FTP is empty");
-                return;
-            }
-
-            if (!Directory.Exists(tbDestinationFTP.Text))
-            {
-                Directory.CreateDirectory(tbDestinationFTP.Text);
-            }
-
             SetNotes("Started Download FTP");
 
-            if (lFTPUser == string.Empty || lFTPPassword == string.Empty)
-            {
-                MessageBox.Show("Incorrect FTP connection parameter");
-                return;
-            }
-
-            if (lSource.Count > 0)
-            {
-                tbCountDownloadFromFTP.Text = Util.DownloadFromFTP(lSource, lFTP, lFTPUser, lFTPPassword, tbDestinationFTP.Text).ToString();
-            }
+            tbCountDownloadFromFTP.Text = Util.DownloadFromFTP(lSource, lFTP, lFTPUser, lFTPPassword, tbDestinationFTP.Text).ToString();
 
             SetNotes("Download FTP END");
         }
@@ -358,35 +323,6 @@ namespace PictureView
         //obrisati postojeće slike u ovom katalogu
         private void btnResizePicture_Click(object sender, EventArgs e)
         {
-            if(tbResizePicture.Text == string.Empty)
-            {
-                MessageBox.Show("Resized picture is empty");
-                return;
-            }
-
-            if (!Directory.Exists(tbResizePicture.Text))
-            {
-                MessageBox.Show("Resized picture folder doesn't exists");
-                return;
-            }
-
-            if (tbDestinationFTP.Text == string.Empty)
-            {
-                MessageBox.Show("Destination FTP is empty");
-                return;
-            }
-
-            if (!Directory.Exists(tbDestinationFTP.Text))
-            {
-                MessageBox.Show("Destination FTP folder doesn't exists");
-            }
-
-            if (tbResWidth.Text == string.Empty || tbResHeight.Text == string.Empty)
-            {
-                MessageBox.Show("Invalid resolution");
-                return;
-            }
-
             SetNotes("Started Resize picture");
 
             tbCountResizedPicture.Text = Util.ResizePicture(tbDestinationFTP.Text, "jpg", tbResizePicture.Text, Convert.ToInt32(tbResWidth.Text), Convert.ToInt32(tbResHeight.Text)).ToString();

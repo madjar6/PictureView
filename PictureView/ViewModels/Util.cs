@@ -42,6 +42,12 @@ namespace PictureView.ViewModels
         {
             List<Tuple<string, string>> lScanFTP = new List<Tuple<string, string>>();
 
+            if (FtpUri == string.Empty || User == string.Empty || Pass == string.Empty)
+            {
+                MessageBox.Show("You must enter parameter for connection on FTP");
+                return lScanFTP;
+            }
+
             try
             {
                 Queue<String> folders = new Queue<String>();
@@ -87,7 +93,7 @@ namespace PictureView.ViewModels
 
                     for (int j = 0; j < newFiles.Count; j++)
                     {
-                        lScanFTP.Add(new Tuple<string, string>(newFiles[j].ToUpper(), fld + newFiles[j].ToUpper()));
+                        lScanFTP.Add(new Tuple<string, string>(newFiles[j], fld + newFiles[j]));
                     }
                 }
             }
@@ -106,13 +112,25 @@ namespace PictureView.ViewModels
         {
             List<string> lScanDestination = new List<string>();
 
+            if (Path == string.Empty)
+            {
+                MessageBox.Show("Destination folder is empty.");
+                return lScanDestination;
+            }
+
+            if (!Directory.Exists(Path))
+            {
+                MessageBox.Show("Destination doesn't exists");
+                return lScanDestination;
+            }
+
             try
             {
                 DirectoryInfo d = new DirectoryInfo(Path);
                 FileInfo[] Files = d.GetFiles("*." + Extension);
                 foreach (FileInfo file in Files)
                 {
-                    lScanDestination.Add(file.Name.ToUpper());
+                    lScanDestination.Add(file.Name);
                 }
             }
             catch(Exception err)
@@ -127,6 +145,12 @@ namespace PictureView.ViewModels
 #region Difference Source<->Destination
         public static List<string> DifferenceSourceDestination(List<Tuple<string, string>> Source, List<string> Destination)
         {
+            if (Source.Count() == 0)
+            {
+                MessageBox.Show("Source folder is empty.");
+                return null;
+            }
+
             try
             {
                 return Source.Select(t => t.Item1).Except(Destination).ToList();
@@ -161,8 +185,33 @@ namespace PictureView.ViewModels
         {
             int Count = 0;
 
+            if (Path == string.Empty)
+            {
+                MessageBox.Show("Destination FTP is empty");
+                return 0;
+            }
+
+            if (!Directory.Exists(Path))
+            {
+                Directory.CreateDirectory(Path);
+            }
+
+
+            if (User == string.Empty || Pass == string.Empty)
+            {
+                MessageBox.Show("Incorrect FTP connection parameter");
+                return 0;
+            }
+
+            if (Source.Count == 0)
+            {
+                return 0;
+            }
+
             try
             {
+                Array.ForEach(Directory.GetFiles(Path), File.Delete);
+
                 var query = Source.Where(t => Difference.Contains(t.Item1));
 
                 using (WebClient ftpClient = new WebClient())
@@ -171,6 +220,9 @@ namespace PictureView.ViewModels
 
                     foreach (var element in query)
                     {
+                        //MessageBox.Show(element.Item2);
+                        //MessageBox.Show(Path + "\\" + element.Item1);
+
                         ftpClient.DownloadFile(element.Item2, Path + "\\" + element.Item1);
                         Count += 1;
                     }
@@ -181,7 +233,7 @@ namespace PictureView.ViewModels
             catch(Exception err)
             {
                 LogErr.log(err.StackTrace + "++++++++" + err.Message, "DownloadFromFTP");
-                return 0;
+                return -1;
             }
 
         }
@@ -192,8 +244,39 @@ namespace PictureView.ViewModels
         {
             int Count = 0;
 
+            if (PathResize == string.Empty)
+            {
+                MessageBox.Show("Resized picture is empty");
+                return 0;
+            }
+
+            if (!Directory.Exists(PathResize))
+            {
+                MessageBox.Show("Resized picture folder doesn't exists");
+                return 0;
+            }
+
+            if (PathPicture == string.Empty)
+            {
+                MessageBox.Show("Destination FTP is empty");
+                return 0;
+            }
+
+            if (!Directory.Exists(PathPicture))
+            {
+                MessageBox.Show("Destination FTP folder doesn't exists");
+            }
+
+            if (Width == null || Width == 0 || Height == null || Height == 0)
+            {
+                MessageBox.Show("Invalid resolution");
+                return 0;
+            }
+
             try
             {
+                Array.ForEach(Directory.GetFiles(PathResize), File.Delete);
+
                 DirectoryInfo d1 = new DirectoryInfo(PathPicture);
                 FileInfo[] Files = d1.GetFiles("*." + Extension);
                 foreach (FileInfo file in Files)
