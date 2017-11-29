@@ -12,8 +12,9 @@ namespace PictureView.ViewModels
 {
     public class Util
     {
+       public static LogErr mylog = new LogErr();
 
-#region Resize image
+        #region Resize image
 
         public static void SaveImage(string imagePath, string savedName, string savedPath, int width = 0, int height = 0)
         {
@@ -40,53 +41,62 @@ namespace PictureView.ViewModels
         public static List<Tuple<string, string>> scanFTP(String FtpUri, String User, String Pass)
         {
             List<Tuple<string, string>> lScanFTP = new List<Tuple<string, string>>();
-            Queue<String> folders = new Queue<String>();
 
-            folders.Enqueue("ftp://" + FtpUri + "/");
-
-            while (folders.Count > 0)
+            try
             {
-                String fld = folders.Dequeue();
-                List<String> newFiles = new List<String>();
+                Queue<String> folders = new Queue<String>();
+                folders.Enqueue("ftp://" + FtpUri + "/");
 
-                FtpWebRequest ftp = (FtpWebRequest)FtpWebRequest.Create(fld);
-                ftp.Credentials = new NetworkCredential(User, Pass);
-                ftp.UsePassive = false;
-                ftp.Method = WebRequestMethods.Ftp.ListDirectory;
-                using (StreamReader resp = new StreamReader(ftp.GetResponse().GetResponseStream()))
+                while (folders.Count > 0)
                 {
-                    String line = resp.ReadLine();
-                    while (line != null)
-                    {
-                        newFiles.Add(line.Trim());
-                        line = resp.ReadLine();
-                    }
-                }
+                    String fld = folders.Dequeue();
+                    List<String> newFiles = new List<String>();
 
-                ftp = (FtpWebRequest)FtpWebRequest.Create(fld);
-                ftp.Credentials = new NetworkCredential(User, Pass);
-                ftp.UsePassive = false;
-                ftp.Method = WebRequestMethods.Ftp.ListDirectoryDetails;
-                using (StreamReader resp = new StreamReader(ftp.GetResponse().GetResponseStream()))
-                {
-                    String line = resp.ReadLine();
-                    while (line != null)
+                    FtpWebRequest ftp = (FtpWebRequest)FtpWebRequest.Create(fld);
+                    ftp.Credentials = new NetworkCredential(User, Pass);
+                    ftp.UsePassive = false;
+                    ftp.Method = WebRequestMethods.Ftp.ListDirectory;
+                    using (StreamReader resp = new StreamReader(ftp.GetResponse().GetResponseStream()))
                     {
-                        if (line.Trim().ToLower().StartsWith("d") || line.Contains(" <DIR> "))
+                        String line = resp.ReadLine();
+                        while (line != null)
                         {
-                            String dir = newFiles.First(x => line.EndsWith(x));
-                            newFiles.Remove(dir);
-                            folders.Enqueue(fld + dir + "/");
+                            newFiles.Add(line.Trim());
+                            line = resp.ReadLine();
                         }
-                        line = resp.ReadLine();
                     }
-                }
 
-                for (int j = 0; j < newFiles.Count; j++)
-                {
-                    lScanFTP.Add(new Tuple<string, string>(newFiles[j].ToUpper(), fld + newFiles[j].ToUpper()));
+                    ftp = (FtpWebRequest)FtpWebRequest.Create(fld);
+                    ftp.Credentials = new NetworkCredential(User, Pass);
+                    ftp.UsePassive = false;
+                    ftp.Method = WebRequestMethods.Ftp.ListDirectoryDetails;
+                    using (StreamReader resp = new StreamReader(ftp.GetResponse().GetResponseStream()))
+                    {
+                        String line = resp.ReadLine();
+                        while (line != null)
+                        {
+                            if (line.Trim().ToLower().StartsWith("d") || line.Contains(" <DIR> "))
+                            {
+                                String dir = newFiles.First(x => line.EndsWith(x));
+                                newFiles.Remove(dir);
+                                folders.Enqueue(fld + dir + "/");
+                            }
+                            line = resp.ReadLine();
+                        }
+                    }
+
+                    for (int j = 0; j < newFiles.Count; j++)
+                    {
+                        lScanFTP.Add(new Tuple<string, string>(newFiles[j].ToUpper(), fld + newFiles[j].ToUpper()));
+                    }
                 }
             }
+
+            catch(Exception err)
+            {
+                LogErr.log(err.StackTrace + "++++++++" + err.Message, "scanFTP");
+            }
+
             return lScanFTP;
         }
 #endregion
@@ -96,11 +106,18 @@ namespace PictureView.ViewModels
         {
             List<string> lScanDestination = new List<string>();
 
-            DirectoryInfo d = new DirectoryInfo(Path);
-            FileInfo[] Files = d.GetFiles("*." + Extension);
-            foreach (FileInfo file in Files)
+            try
             {
-                lScanDestination.Add(file.Name.ToUpper());
+                DirectoryInfo d = new DirectoryInfo(Path);
+                FileInfo[] Files = d.GetFiles("*." + Extension);
+                foreach (FileInfo file in Files)
+                {
+                    lScanDestination.Add(file.Name.ToUpper());
+                }
+            }
+            catch(Exception err)
+            {
+                LogErr.log(err.StackTrace + "++++++++" + err.Message, "scanDestination");
             }
 
             return lScanDestination;
@@ -181,7 +198,6 @@ namespace PictureView.ViewModels
 #region Find bookmark from .ini file        
         public string FindBookmarkMail(string Parametar)
         {
-            LogErr mylog = new LogErr();
             string[] bookmark;
             string uslov;
             string rezultat = "";
@@ -200,7 +216,7 @@ namespace PictureView.ViewModels
             }
             catch (Exception err)
             {
-                mylog.log(err.StackTrace + "++++++++" + err.Message, "FindBookmarkMail");
+                LogErr.log(err.StackTrace + "++++++++" + err.Message, "FindBookmarkMail");
                 //throw;
             }
             return rezultat;
@@ -212,7 +228,6 @@ namespace PictureView.ViewModels
         public void SendMail(string from, string fromName, ArrayList to, string subject, string messageBody)
         {
             SmtpClient emailClient;
-            LogErr mylog = new LogErr();
             try
             {
                 emailClient = new SmtpClient(FindBookmarkMail("MAILSERVER"));
@@ -240,7 +255,7 @@ namespace PictureView.ViewModels
             }
             catch (Exception err)
             {
-                mylog.log(err.StackTrace + "++++++++" + err.Message, "SendMail");
+                LogErr.log(err.StackTrace + "++++++++" + err.Message, "SendMail");
                 //throw;
             }
         }//SendMail

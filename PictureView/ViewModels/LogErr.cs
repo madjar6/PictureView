@@ -11,7 +11,7 @@ namespace PictureView.ViewModels
         }
 
         //Procedura koja vrši upis greške u .err fajl
-        public void log(string greska, string proces)
+        public static void log(string greska, string proces)
         {
             DateTime VarDatumVrijeme = DateTime.Now;
             string dDate = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");

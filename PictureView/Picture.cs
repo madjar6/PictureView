@@ -1,14 +1,4 @@
-﻿//  Skeniranje source (FTP)
-//  Skeniranje destination (Lokalni katalog)
-//  Dobijanje razlike fajlova  (ima source nema destination)
-//  Upis razlike u bazu == dobijanje spiska šifara iz baze
-
-//  Poređenje razlike sa postojećim šiframa u Tradis aplikaciji
-//  Download sa FTP-a samo nepostojećih slika
-//  Odraditi resize slika na 300x300
-//  Kopiranje konvertovanih slika u katalog
-
-//51.255.92.206
+﻿//51.255.92.206
 //sv_images_ftp
 //Nfd59VYd4836rc9v8yj0Mo
 
@@ -217,16 +207,13 @@ namespace PictureView
                 return;
             }
 
-            tbNotesSynchronization.Text = "Started";
-            tbNotesSynchronization.Refresh();
+            SetNotes("Started Scan Destination");
 
             lDestination = Util.scanDestination(tbDestination.Text, "jpg");
 
             tbCountDestination.Text = lDestination.Count.ToString();
 
-            tbNotesSynchronization.Text = "END";
-            tbNotesSynchronization.Refresh();
-
+            SetNotes("Scan Destination END");
         }
 
         private void btnScanFTP_Click(object sender, EventArgs e)
@@ -237,16 +224,39 @@ namespace PictureView
                 return;
             }
 
-            tbNotesSynchronization.Text = "Started";
-            tbNotesSynchronization.Refresh();
+            if (rbBUZZ.Checked == true)
+            {
+                if (tbFTPIP.Text == string.Empty || tbFTPUser.Text == string.Empty || tbFTPPassword.Text == string.Empty )
+                {
+                    MessageBox.Show("You must enter parameter for connection to BUZZ FTP");
+                    return;
+                }
+            }
+            else if (rbSV.Checked == true)
+            {
+                if (tbFTPIP1.Text == string.Empty || tbFTPUser1.Text == string.Empty || tbFTPPassword1.Text == string.Empty)
+                {
+                    MessageBox.Show("You must enter parameter for connection to SportVision FTP");
+                    return;
+                }
+            }
 
-            //lSource = Util.scanFTP(tbFTPIP.Text, tbFTPUser.Text, tbFTPPassword.Text);
-            lSource = Util.scanFTP(lFTPIP, lFTPUser, lFTPPassword);
+            SetNotes("Started Scan FTP");
+
+            if(lFTPIP != string.Empty && lFTPUser != string.Empty && lFTPPassword != string.Empty)
+            {
+                lSource = Util.scanFTP(lFTPIP, lFTPUser, lFTPPassword);
+            }
+            else
+            {
+                MessageBox.Show("You must enter parameter for connection on FTP");
+                return;
+            }
+            
 
             tbCountFTP.Text = lSource.Count.ToString();
 
-            tbNotesSynchronization.Text = "END";
-            tbNotesSynchronization.Refresh();
+            SetNotes("Scan FTP END");
         }
 
         private void btnDifference_Click(object sender, EventArgs e)
@@ -363,9 +373,9 @@ namespace PictureView
         {
             if (rbBUZZ.Checked)
             {
-                lFTPIP = tbFTPIP.Text; 
-                lFTPUser = tbFTPUser.Text;
-                lFTPPassword = tbFTPPassword.Text;
+                    lFTPIP = tbFTPIP.Text;
+                    lFTPUser = tbFTPUser.Text;
+                    lFTPPassword = tbFTPPassword.Text;
             }
         }
 
@@ -395,7 +405,6 @@ namespace PictureView
             Util myFunct = new Util();
             ArrayList myToAL = new ArrayList();
             String mailTo;
-            LogErr mylog = new LogErr();
 
             try
             {
@@ -415,13 +424,22 @@ namespace PictureView
             }
             catch (Exception err)
             {
-                mylog.log(err.StackTrace + "++++++++" + err.Message, "btnSendMail_Click");
+                LogErr.log(err.StackTrace + "++++++++" + err.Message, "btnSendMail_Click");
             }
         }
 
         private void tcMail_Selecting(object sender, TabControlCancelEventArgs e)
         {
             tbBody.Text += tbCountCopyResizedPicture.Text;
+        }
+
+        private void SetNotes(string Text)
+        {
+            if (Text != string.Empty)
+            {
+                tbNotesSynchronization.Text = Text;
+                tbNotesSynchronization.Refresh();
+            }
         }
     }
 }
