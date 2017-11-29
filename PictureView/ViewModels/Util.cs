@@ -127,14 +127,31 @@ namespace PictureView.ViewModels
 #region Difference Source<->Destination
         public static List<string> DifferenceSourceDestination(List<Tuple<string, string>> Source, List<string> Destination)
         {
-            return Source.Select(t => t.Item1).Except(Destination).ToList();
+            try
+            {
+                return Source.Select(t => t.Item1).Except(Destination).ToList();
+            }
+            catch(Exception err)
+            {
+                LogErr.log(err.StackTrace + "++++++++" + err.Message, "DifferenceSourceDestination");
+                return null;
+            }
+            
         }
         #endregion
 
 #region Difference ERP<->Difference
         public static List<string> DifferenceERPDifference(List<string> ERP, List<string> Difference)
         {
-            return ERP.Intersect(Difference).ToList();
+            try
+            {
+                return ERP.Intersect(Difference).ToList();
+            }
+            catch(Exception err)
+            {
+                LogErr.log(err.StackTrace + "++++++++" + err.Message, "DifferenceERPDifference");
+                return null;
+            }
         }
 
 #endregion
@@ -142,21 +159,30 @@ namespace PictureView.ViewModels
 #region Download from FTP
         public static int DownloadFromFTP(List<Tuple<string, string>> Source, List<string> Difference, String User, String Pass, String Path)
         {
-            var query = Source.Where(t => Difference.Contains(t.Item1));
-
             int Count = 0;
-            using (WebClient ftpClient = new WebClient())
+
+            try
             {
-                ftpClient.Credentials = new NetworkCredential(User, Pass);
+                var query = Source.Where(t => Difference.Contains(t.Item1));
 
-                foreach (var element in query)
+                using (WebClient ftpClient = new WebClient())
                 {
-                    ftpClient.DownloadFile(element.Item2, Path + "\\" + element.Item1);
-                    Count += 1;
-                }
-            }
+                    ftpClient.Credentials = new NetworkCredential(User, Pass);
 
-            return Count;
+                    foreach (var element in query)
+                    {
+                        ftpClient.DownloadFile(element.Item2, Path + "\\" + element.Item1);
+                        Count += 1;
+                    }
+                }
+
+                return Count;
+            }
+            catch(Exception err)
+            {
+                LogErr.log(err.StackTrace + "++++++++" + err.Message, "DownloadFromFTP");
+                return 0;
+            }
 
         }
 #endregion
@@ -166,15 +192,24 @@ namespace PictureView.ViewModels
         {
             int Count = 0;
 
-            DirectoryInfo d1 = new DirectoryInfo(PathPicture);
-            FileInfo[] Files = d1.GetFiles("*." + Extension);
-            foreach (FileInfo file in Files)
+            try
             {
-                Util.SaveImage(file.FullName, file.Name, PathResize, Width, Height);
-                Count += 1;
+                DirectoryInfo d1 = new DirectoryInfo(PathPicture);
+                FileInfo[] Files = d1.GetFiles("*." + Extension);
+                foreach (FileInfo file in Files)
+                {
+                    Util.SaveImage(file.FullName, file.Name, PathResize, Width, Height);
+                    Count += 1;
+                }
+
+                return Count;
+            }
+            catch(Exception err)
+            {
+                LogErr.log(err.StackTrace + "++++++++" + err.Message, "ResizePicture");
+                return 0;
             }
 
-            return Count;
         }
 #endregion
 
@@ -183,15 +218,23 @@ namespace PictureView.ViewModels
         {
             int Count = 0;
 
-            DirectoryInfo d1 = new DirectoryInfo(Source);
-            FileInfo[] Files = d1.GetFiles("*." + Extension);
-
-            foreach (FileInfo file in Files)
+            try
             {
-                File.Copy(file.FullName, Destination + "\\" + file.Name, true);
-                Count += 1;
+                DirectoryInfo d1 = new DirectoryInfo(Source);
+                FileInfo[] Files = d1.GetFiles("*." + Extension);
+
+                foreach (FileInfo file in Files)
+                {
+                    File.Copy(file.FullName, Destination + "\\" + file.Name, true);
+                    Count += 1;
+                }
+                return Count;
             }
-            return Count;
+            catch(Exception err)
+            {
+                LogErr.log(err.StackTrace + "++++++++" + err.Message, "CopyResizedPicture");
+                return 0;
+            }
         }
 #endregion
 

@@ -90,8 +90,10 @@
             this.tbDestination = new System.Windows.Forms.TextBox();
             this.tbCount = new System.Windows.Forms.TextBox();
             this.tabPage1 = new System.Windows.Forms.TabPage();
-            this.labMailServer = new System.Windows.Forms.Label();
-            this.tbMailServer = new System.Windows.Forms.TextBox();
+            this.tbSendMail = new System.Windows.Forms.TextBox();
+            this.btnSendMail = new System.Windows.Forms.Button();
+            this.tbBody = new System.Windows.Forms.TextBox();
+            this.labBody = new System.Windows.Forms.Label();
             this.tbSubject = new System.Windows.Forms.TextBox();
             this.labSubject = new System.Windows.Forms.Label();
             this.tbTo = new System.Windows.Forms.TextBox();
@@ -102,10 +104,8 @@
             this.labFrom = new System.Windows.Forms.Label();
             this.labMailServerPort = new System.Windows.Forms.Label();
             this.tbMailServerPort = new System.Windows.Forms.TextBox();
-            this.tbBody = new System.Windows.Forms.TextBox();
-            this.labBody = new System.Windows.Forms.Label();
-            this.tbSendMail = new System.Windows.Forms.TextBox();
-            this.btnSendMail = new System.Windows.Forms.Button();
+            this.tbMailServer = new System.Windows.Forms.TextBox();
+            this.labMailServer = new System.Windows.Forms.Label();
             this.tcMail.SuspendLayout();
             this.tbPictureView1.SuspendLayout();
             this.tbPictureView2.SuspendLayout();
@@ -511,7 +511,7 @@
             this.btnDownloadFTP.Name = "btnDownloadFTP";
             this.btnDownloadFTP.Size = new System.Drawing.Size(130, 30);
             this.btnDownloadFTP.TabIndex = 39;
-            this.btnDownloadFTP.Text = "DownloadFTP";
+            this.btnDownloadFTP.Text = "Download FTP";
             this.btnDownloadFTP.UseVisualStyleBackColor = true;
             this.btnDownloadFTP.Click += new System.EventHandler(this.btnDownloadFTP_Click);
             // 
@@ -741,22 +741,40 @@
             this.tabPage1.Text = "Mail";
             this.tabPage1.UseVisualStyleBackColor = true;
             // 
-            // labMailServer
+            // tbSendMail
             // 
-            this.labMailServer.AutoSize = true;
-            this.labMailServer.Location = new System.Drawing.Point(23, 34);
-            this.labMailServer.Name = "labMailServer";
-            this.labMailServer.Size = new System.Drawing.Size(58, 13);
-            this.labMailServer.TabIndex = 2;
-            this.labMailServer.Text = "Mail server";
-            this.labMailServer.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.tbSendMail.Location = new System.Drawing.Point(584, 591);
+            this.tbSendMail.Name = "tbSendMail";
+            this.tbSendMail.ReadOnly = true;
+            this.tbSendMail.Size = new System.Drawing.Size(169, 20);
+            this.tbSendMail.TabIndex = 25;
             // 
-            // tbMailServer
+            // btnSendMail
             // 
-            this.tbMailServer.Location = new System.Drawing.Point(87, 27);
-            this.tbMailServer.Name = "tbMailServer";
-            this.tbMailServer.Size = new System.Drawing.Size(310, 20);
-            this.tbMailServer.TabIndex = 3;
+            this.btnSendMail.Location = new System.Drawing.Point(604, 525);
+            this.btnSendMail.Name = "btnSendMail";
+            this.btnSendMail.Size = new System.Drawing.Size(130, 60);
+            this.btnSendMail.TabIndex = 24;
+            this.btnSendMail.Text = "Send";
+            this.btnSendMail.UseVisualStyleBackColor = true;
+            this.btnSendMail.Click += new System.EventHandler(this.btnSendMail_Click);
+            // 
+            // tbBody
+            // 
+            this.tbBody.Location = new System.Drawing.Point(87, 163);
+            this.tbBody.Multiline = true;
+            this.tbBody.Name = "tbBody";
+            this.tbBody.Size = new System.Drawing.Size(491, 452);
+            this.tbBody.TabIndex = 23;
+            // 
+            // labBody
+            // 
+            this.labBody.AutoSize = true;
+            this.labBody.Location = new System.Drawing.Point(41, 171);
+            this.labBody.Name = "labBody";
+            this.labBody.Size = new System.Drawing.Size(31, 13);
+            this.labBody.TabIndex = 22;
+            this.labBody.Text = "Body";
             // 
             // tbSubject
             // 
@@ -839,40 +857,22 @@
             this.tbMailServerPort.Size = new System.Drawing.Size(100, 20);
             this.tbMailServerPort.TabIndex = 12;
             // 
-            // tbBody
+            // tbMailServer
             // 
-            this.tbBody.Location = new System.Drawing.Point(87, 163);
-            this.tbBody.Multiline = true;
-            this.tbBody.Name = "tbBody";
-            this.tbBody.Size = new System.Drawing.Size(491, 452);
-            this.tbBody.TabIndex = 23;
+            this.tbMailServer.Location = new System.Drawing.Point(87, 27);
+            this.tbMailServer.Name = "tbMailServer";
+            this.tbMailServer.Size = new System.Drawing.Size(310, 20);
+            this.tbMailServer.TabIndex = 3;
             // 
-            // labBody
+            // labMailServer
             // 
-            this.labBody.AutoSize = true;
-            this.labBody.Location = new System.Drawing.Point(41, 171);
-            this.labBody.Name = "labBody";
-            this.labBody.Size = new System.Drawing.Size(31, 13);
-            this.labBody.TabIndex = 22;
-            this.labBody.Text = "Body";
-            // 
-            // tbSendMail
-            // 
-            this.tbSendMail.Location = new System.Drawing.Point(584, 591);
-            this.tbSendMail.Name = "tbSendMail";
-            this.tbSendMail.ReadOnly = true;
-            this.tbSendMail.Size = new System.Drawing.Size(169, 20);
-            this.tbSendMail.TabIndex = 25;
-            // 
-            // btnSendMail
-            // 
-            this.btnSendMail.Location = new System.Drawing.Point(604, 525);
-            this.btnSendMail.Name = "btnSendMail";
-            this.btnSendMail.Size = new System.Drawing.Size(130, 60);
-            this.btnSendMail.TabIndex = 24;
-            this.btnSendMail.Text = "Send";
-            this.btnSendMail.UseVisualStyleBackColor = true;
-            this.btnSendMail.Click += new System.EventHandler(this.btnSendMail_Click);
+            this.labMailServer.AutoSize = true;
+            this.labMailServer.Location = new System.Drawing.Point(23, 34);
+            this.labMailServer.Name = "labMailServer";
+            this.labMailServer.Size = new System.Drawing.Size(58, 13);
+            this.labMailServer.TabIndex = 2;
+            this.labMailServer.Text = "Mail server";
+            this.labMailServer.TextAlign = System.Drawing.ContentAlignment.TopCenter;
             // 
             // PictureView
             // 

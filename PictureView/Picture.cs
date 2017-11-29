@@ -207,6 +207,12 @@ namespace PictureView
                 return;
             }
 
+            if (!Directory.Exists(tbDestination.Text))
+            {
+                MessageBox.Show("Destination doesn't exists");
+                return;
+            }
+
             SetNotes("Started Scan Destination");
 
             lDestination = Util.scanDestination(tbDestination.Text, "jpg");
@@ -267,58 +273,65 @@ namespace PictureView
                 return;
             }
 
-            tbNotesSynchronization.Text = "Started";
-            tbNotesSynchronization.Refresh();
+            SetNotes("Started Difference FTP-Dest ");
 
             lDiff = Util.DifferenceSourceDestination(lSource, lDestination);
 
             tbCountDifference.Text = lDiff.Count.ToString();
 
-            tbNotesSynchronization.Text = "END";
-            tbNotesSynchronization.Refresh();
-
+            SetNotes("Difference FTP-Dest END");
         }
 
         private void btnERPItem_Click(object sender, EventArgs e)
         {
-            tbNotesSynchronization.Text = "Started";
-            tbNotesSynchronization.Refresh();
+            SetNotes("Started ERP Item");
 
             DatabaseManager dbManager = new DatabaseManager();
             lERPItem = dbManager.LoadData();
             tbCountERPItem.Text = lERPItem.Count.ToString();
 
-            tbNotesSynchronization.Text = "END";
-            tbNotesSynchronization.Refresh();
-
+            SetNotes("ERP Item END");
         }
 
         private void btnDifferenceERP_Click(object sender, EventArgs e)
         {
-            tbNotesSynchronization.Text = "Started";
-            tbNotesSynchronization.Refresh();
+            SetNotes("Started Difference ERP");
 
             lFTP = Util.DifferenceERPDifference(lERPItem, lDiff);
 
             tbCountFromFTP.Text = lFTP.Count.ToString();
 
-            tbNotesSynchronization.Text = "END";
-            tbNotesSynchronization.Refresh();
-
+            SetNotes("Difference ERP END");
         }
 
         //obrisati postojeće slike u ovom katalogu
         private void btnDownloadFTP_Click(object sender, EventArgs e)
         {
-            tbNotesSynchronization.Text = "Started";
-            tbNotesSynchronization.Refresh();
+            if (tbDestinationFTP.Text == string.Empty)
+            {
+                MessageBox.Show("Destination FTP is empty");
+                return;
+            }
 
-            //tbCountDownloadFromFTP.Text = Util.DownloadFromFTP(lSource, lFTP, tbFTPUser.Text, tbFTPPassword.Text, tbDestinationFTP.Text).ToString();
-            tbCountDownloadFromFTP.Text = Util.DownloadFromFTP(lSource, lFTP, lFTPUser, lFTPPassword, tbDestinationFTP.Text).ToString();
+            if (!Directory.Exists(tbDestinationFTP.Text))
+            {
+                Directory.CreateDirectory(tbDestinationFTP.Text);
+            }
 
-            tbNotesSynchronization.Text = "END";
-            tbNotesSynchronization.Refresh();
+            SetNotes("Started Download FTP");
 
+            if (lFTPUser == string.Empty || lFTPPassword == string.Empty)
+            {
+                MessageBox.Show("Incorrect FTP connection parameter");
+                return;
+            }
+
+            if (lSource.Count > 0)
+            {
+                tbCountDownloadFromFTP.Text = Util.DownloadFromFTP(lSource, lFTP, lFTPUser, lFTPPassword, tbDestinationFTP.Text).ToString();
+            }
+
+            SetNotes("Download FTP END");
         }
 
         private void btnFTP_Click(object sender, EventArgs e)
@@ -345,14 +358,40 @@ namespace PictureView
         //obrisati postojeće slike u ovom katalogu
         private void btnResizePicture_Click(object sender, EventArgs e)
         {
-            tbNotesSynchronization.Text = "Started";
-            tbNotesSynchronization.Refresh();
+            if(tbResizePicture.Text == string.Empty)
+            {
+                MessageBox.Show("Resized picture is empty");
+                return;
+            }
+
+            if (!Directory.Exists(tbResizePicture.Text))
+            {
+                MessageBox.Show("Resized picture folder doesn't exists");
+                return;
+            }
+
+            if (tbDestinationFTP.Text == string.Empty)
+            {
+                MessageBox.Show("Destination FTP is empty");
+                return;
+            }
+
+            if (!Directory.Exists(tbDestinationFTP.Text))
+            {
+                MessageBox.Show("Destination FTP folder doesn't exists");
+            }
+
+            if (tbResWidth.Text == string.Empty || tbResHeight.Text == string.Empty)
+            {
+                MessageBox.Show("Invalid resolution");
+                return;
+            }
+
+            SetNotes("Started Resize picture");
 
             tbCountResizedPicture.Text = Util.ResizePicture(tbDestinationFTP.Text, "jpg", tbResizePicture.Text, Convert.ToInt32(tbResWidth.Text), Convert.ToInt32(tbResHeight.Text)).ToString();
 
-            tbNotesSynchronization.Text = "END";
-            tbNotesSynchronization.Refresh();
-
+            SetNotes("Resize picture END");
         }
 
         private void btnMissingPicture_Click(object sender, EventArgs e)
@@ -391,13 +430,11 @@ namespace PictureView
 
         private void btnCopyResizedPicture_Click(object sender, EventArgs e)
         {
-            tbNotesSynchronization.Text = "Started";
-            tbNotesSynchronization.Refresh();
+            SetNotes("Started Copy picture");
 
             tbCountCopyResizedPicture.Text = Util.CopyResizedPicture(tbResizePicture.Text, tbDestination.Text, "jpg").ToString();
 
-            tbNotesSynchronization.Text = "END";
-            tbNotesSynchronization.Refresh();
+            SetNotes("Copy picture END");
         }
 
         private void btnSendMail_Click(object sender, EventArgs e)

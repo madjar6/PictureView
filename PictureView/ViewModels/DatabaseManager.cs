@@ -14,23 +14,16 @@ namespace PictureView.ViewModels
         public SqlConnection GetSQLConnection()
         {
             SqlConnection myConnection;
-            //LogError logErr = new LogError();
-            //SqlConnection myConnection = new SqlConnection(ConfigurationManager.ConnectionStrings["Connection"].ToString());
-            //SqlConnection myConnection = new SqlConnection("Server = localhost\\SQLEXPRESS; Database = Working; Trusted_Connection = True;");
-            //MessageBox.Show(ConfigurationManager.ConnectionStrings["Connection"].ToString());
             
             try
             {
                 myConnection = new SqlConnection(ConfigurationManager.ConnectionStrings["Connection"].ToString());
                 myConnection.Open();
-                //MessageBox.Show("DB is opened");
                 return myConnection;
             }
             catch (Exception err)
             {
-                MessageBox.Show("Error in application. Please view log file." + err.StackTrace + " +++++++++++ " + err.Message);
-                //MessageBox.Show(err.StackTrace + "++++++++" + err.Message);
-                //logErr.LogErrorToFile(err.StackTrace + "++++++++" + err.Message, System.Reflection.MethodBase.GetCurrentMethod().Name);
+                LogErr.log(err.StackTrace + "++++++++" + err.Message, "GetSQLConnection");
                 return null;
             }
 
@@ -56,24 +49,30 @@ namespace PictureView.ViewModels
         public List<string> LoadData()
         {
             List<string> lERP = new List<string>();
-            using (SqlCommand cmd = GetSQLConnection().CreateCommand())
-            {
-                cmd.CommandText = "SELECT distinct ItemId FROM[Analize].[dbo].[item_table]";
-                //cmd.ExecuteNonQuery();
 
-                using (SqlDataReader reader = cmd.ExecuteReader())
+            try
+            {
+                using (SqlCommand cmd = GetSQLConnection().CreateCommand())
                 {
-                    while (reader.Read())
+                    cmd.CommandText = "SELECT distinct ItemId FROM[Analize].[dbo].[item_table]";
+                    //cmd.ExecuteNonQuery();
+
+                    using (SqlDataReader reader = cmd.ExecuteReader())
                     {
-                        lERP.Add(reader["ItemId"].ToString() + ".jpg");
+                        while (reader.Read())
+                        {
+                            lERP.Add(reader["ItemId"].ToString() + ".jpg");
+                        }
                     }
+                    GetSQLConnection().Close();
                 }
-                GetSQLConnection().Close();
+            }
+            catch(Exception err)
+            {
+                LogErr.log(err.StackTrace + "++++++++" + err.Message, "LoadData");
             }
 
             return lERP;
-            //MessageBox.Show(lERP.Count.ToString());
-            //MessageBox.Show(lERP[0]);
         }
 
     }
