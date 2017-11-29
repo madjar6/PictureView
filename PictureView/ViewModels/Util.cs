@@ -159,7 +159,7 @@ namespace PictureView.ViewModels
 
             return Count;
         }
-        #endregion
+#endregion
 
 #region Copy resized picture
         public static int CopyResizedPicture(String Source, String Destination, String Extension)
@@ -176,18 +176,20 @@ namespace PictureView.ViewModels
             }
             return Count;
         }
-        #endregion
+#endregion
 
-        //metoda koja iz MailSettings.ini fajla čita parametre neophodne za slanje maila
+#region Find bookmark from .ini file        
         public string FindBookmarkMail(string Parametar)
         {
             LogErr mylog = new LogErr();
-            string[] bookmark = File.ReadAllLines(Application.StartupPath + "\\" + "MailSettings.ini");
+            string[] bookmark;
             string uslov;
             string rezultat = "";
 
             try
             {
+                bookmark = File.ReadAllLines(Application.StartupPath + "\\" + "MailSettings.ini");
+
                 foreach (var onebookmark in bookmark)
                 {
                     if (onebookmark.StartsWith(uslov = Parametar + "="))
@@ -202,8 +204,10 @@ namespace PictureView.ViewModels
                 //throw;
             }
             return rezultat;
-        }//FindBookmarkMail
+        }
+        #endregion
 
+        #region Send mail
         //metoda koja vrši slanje email poruke
         public void SendMail(string from, string fromName, ArrayList to, string subject, string messageBody)
         {
@@ -230,10 +234,8 @@ namespace PictureView.ViewModels
                 //message.BodyEncoding = System.Text.Encoding.UTF8;
                 //message.SubjectEncoding = System.Text.Encoding.UTF8;
 
-                //emailClient.Credentials = new System.Net.NetworkCredential("no-reply@sportvision.ba", "no-reply");
                 emailClient.Credentials = new System.Net.NetworkCredential(FindBookmarkMail("MAILUSER"), FindBookmarkMail("MAILPASSWORD"));
                 emailClient.Send(message);
-                //MessageBox.Show("Poslato");
 
             }
             catch (Exception err)
@@ -242,6 +244,7 @@ namespace PictureView.ViewModels
                 //throw;
             }
         }//SendMail
+#endregion
 
 
     }
