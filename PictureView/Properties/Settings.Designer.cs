@@ -22,14 +22,5 @@ namespace PictureView.Properties {
                 return defaultInstance;
             }
         }
-        
-        [global::System.Configuration.ApplicationScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("99")]
-        public string test1 {
-            get {
-                return ((string)(this["test1"]));
-            }
-        }
     }
 }

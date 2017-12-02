@@ -9,6 +9,7 @@ using PictureView.ViewModels;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Data;
 using System.Drawing;
 using System.IO;
@@ -22,18 +23,9 @@ namespace PictureView
         public PictureView()
         {
             InitializeComponent();
+            InitSettings();
 
             Util myFunctions = new Util();
-
-            //kupljenje neophodnih parametara za slanje emaila
-            tbMailServer.Text = myFunctions.FindBookmarkMail("MAILSERVER");
-            tbMailServerPort.Text = myFunctions.FindBookmarkMail("MAILPORT");
-            tbFrom.Text = myFunctions.FindBookmarkMail("MAILFROM");
-            tbFromName.Text = myFunctions.FindBookmarkMail("MAILFROMNAME");
-            tbTo.Text = myFunctions.FindBookmarkMail("MAILTO");
-            tbSubject.Text = myFunctions.FindBookmarkMail("MAILSUBJECT");
-            tbBody.Text = myFunctions.FindBookmarkMail("MAILBODY01");
-
 
             string[] args = Environment.GetCommandLineArgs();
             if (args.Length > 1 && args[1].ToString().ToLower() == "sportvisionbih")
@@ -414,6 +406,35 @@ namespace PictureView
                 tbNotesSynchronization.Refresh();
             }
         }
+
+        private void InitSettings()
+        {
+
+            Util myFunctions = new Util();
+
+            //kupljenje parameara neophodnih za prikaz na formama
+            tbFTPIP.Text = myFunctions.FindBookmarkIni("PictureView.ini", "FTPBUZZ");
+            tbFTPUser.Text = myFunctions.FindBookmarkIni("PictureView.ini", "FTPBUZZUSER");
+            tbFTPPassword.Text = myFunctions.FindBookmarkIni("PictureView.ini", "FTPBUZZPASSWORD");
+            tbFTPIP1.Text = myFunctions.FindBookmarkIni("PictureView.ini", "FTPSV");
+            tbFTPUser1.Text = myFunctions.FindBookmarkIni("PictureView.ini", "FTPSVUSER");
+            tbFTPPassword1.Text = myFunctions.FindBookmarkIni("PictureView.ini", "FTPSVPASSWORD");
+            tbDestination.Text = myFunctions.FindBookmarkIni("PictureView.ini", "PATHDESTINATION");
+            tbDestinationFTP.Text = myFunctions.FindBookmarkIni("PictureView.ini", "PATHDESTINATIONFTP");
+            tbResizePicture.Text = myFunctions.FindBookmarkIni("PictureView.ini", "PATHDESTINATIONRESIZEDPICTURE");
+            tbResWidth.Text = myFunctions.FindBookmarkIni("PictureView.ini", "RESIZEWIDTH");
+            tbResHeight.Text = myFunctions.FindBookmarkIni("PictureView.ini", "RESIZEHEIGHT");
+
+            //kupljenje neophodnih parametara za slanje emaila
+            tbMailServer.Text = myFunctions.FindBookmarkIni("MailSettings.ini", "MAILSERVER");
+            tbMailServerPort.Text = myFunctions.FindBookmarkIni("MailSettings.ini", "MAILPORT");
+            tbFrom.Text = myFunctions.FindBookmarkIni("MailSettings.ini", "MAILFROM");
+            tbFromName.Text = myFunctions.FindBookmarkIni("MailSettings.ini", "MAILFROMNAME");
+            tbTo.Text = myFunctions.FindBookmarkIni("MailSettings.ini", "MAILTO");
+            tbSubject.Text = myFunctions.FindBookmarkIni("MailSettings.ini", "MAILSUBJECT");
+            tbBody.Text = myFunctions.FindBookmarkIni("MailSettings.ini", "MAILBODY01");
+        }
+
 
     }
 }
