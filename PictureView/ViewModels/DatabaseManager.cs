@@ -61,7 +61,7 @@ namespace PictureView.ViewModels
                     {
                         while (reader.Read())
                         {
-                            lERP.Add(reader["ItemId"].ToString() + ".jpg");
+                            lERP.Add(reader["ItemId"].ToString().ToUpper() + ".JPG");
                         }
                     }
                     GetSQLConnection().Close();
