@@ -45,6 +45,7 @@
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.tbPictureView2 = new System.Windows.Forms.TabPage();
+            this.button1 = new System.Windows.Forms.Button();
             this.tbCountCopyResizedPicture = new System.Windows.Forms.TextBox();
             this.btnCopyResizedPicture = new System.Windows.Forms.Button();
             this.rbSV = new System.Windows.Forms.RadioButton();
@@ -256,6 +257,7 @@
             // 
             // tbPictureView2
             // 
+            this.tbPictureView2.Controls.Add(this.button1);
             this.tbPictureView2.Controls.Add(this.tbCountCopyResizedPicture);
             this.tbPictureView2.Controls.Add(this.btnCopyResizedPicture);
             this.tbPictureView2.Controls.Add(this.rbSV);
@@ -311,6 +313,13 @@
             this.tbPictureView2.Text = "Synchronization";
             this.tbPictureView2.UseVisualStyleBackColor = true;
             // 
+            // button1
+            // 
+            this.button1.Location = new System.Drawing.Point(0, 0);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(75, 23);
+            this.button1.TabIndex = 0;
+            // 
             // tbCountCopyResizedPicture
             // 
             this.tbCountCopyResizedPicture.Enabled = false;
@@ -361,7 +370,6 @@
             this.tbFTPPassword1.PasswordChar = '*';
             this.tbFTPPassword1.Size = new System.Drawing.Size(120, 20);
             this.tbFTPPassword1.TabIndex = 56;
-            this.tbFTPPassword1.Text = "Nfd59VYd4836rc9v8yj0Mo";
             // 
             // tbFTPUser1
             // 
@@ -369,7 +377,6 @@
             this.tbFTPUser1.Name = "tbFTPUser1";
             this.tbFTPUser1.Size = new System.Drawing.Size(120, 20);
             this.tbFTPUser1.TabIndex = 55;
-            this.tbFTPUser1.Text = "sv_images_ftp";
             // 
             // tbFTPIP1
             // 
@@ -377,7 +384,6 @@
             this.tbFTPIP1.Name = "tbFTPIP1";
             this.tbFTPIP1.Size = new System.Drawing.Size(120, 20);
             this.tbFTPIP1.TabIndex = 54;
-            this.tbFTPIP1.Text = "51.255.92.206";
             // 
             // tbCountMissingPicture
             // 
@@ -413,7 +419,6 @@
             this.tbResHeight.Name = "tbResHeight";
             this.tbResHeight.Size = new System.Drawing.Size(57, 20);
             this.tbResHeight.TabIndex = 50;
-            this.tbResHeight.Text = "300";
             // 
             // tbResWidth
             // 
@@ -421,7 +426,6 @@
             this.tbResWidth.Name = "tbResWidth";
             this.tbResWidth.Size = new System.Drawing.Size(57, 20);
             this.tbResWidth.TabIndex = 49;
-            this.tbResWidth.Text = "300";
             // 
             // label10
             // 
@@ -457,7 +461,6 @@
             this.tbResizePicture.Name = "tbResizePicture";
             this.tbResizePicture.Size = new System.Drawing.Size(336, 20);
             this.tbResizePicture.TabIndex = 45;
-            this.tbResizePicture.Text = "C:\\TempFTP\\Resize";
             // 
             // btnResizePicture
             // 
@@ -503,7 +506,6 @@
             this.tbDestinationFTP.Name = "tbDestinationFTP";
             this.tbDestinationFTP.Size = new System.Drawing.Size(336, 20);
             this.tbDestinationFTP.TabIndex = 40;
-            this.tbDestinationFTP.Text = "C:\\TempFTP";
             // 
             // btnDownloadFTP
             // 
@@ -634,7 +636,6 @@
             this.tbFTPPassword.PasswordChar = '*';
             this.tbFTPPassword.Size = new System.Drawing.Size(120, 20);
             this.tbFTPPassword.TabIndex = 26;
-            this.tbFTPPassword.Text = "NObf5d9f7YVxrbbu3d0";
             // 
             // tbFTPUser
             // 
@@ -642,7 +643,6 @@
             this.tbFTPUser.Name = "tbFTPUser";
             this.tbFTPUser.Size = new System.Drawing.Size(120, 20);
             this.tbFTPUser.TabIndex = 25;
-            this.tbFTPUser.Text = "buzz_images_ftp";
             // 
             // tbFTPIP
             // 
@@ -650,7 +650,6 @@
             this.tbFTPIP.Name = "tbFTPIP";
             this.tbFTPIP.Size = new System.Drawing.Size(120, 20);
             this.tbFTPIP.TabIndex = 24;
-            this.tbFTPIP.Text = "51.255.92.206";
             // 
             // label4
             // 
@@ -704,7 +703,6 @@
             this.tbDestination.Name = "tbDestination";
             this.tbDestination.Size = new System.Drawing.Size(336, 20);
             this.tbDestination.TabIndex = 18;
-            this.tbDestination.Text = "\\\\172.17.6.66\\katalog";
             // 
             // tbCount
             // 
@@ -881,7 +879,7 @@
             this.ClientSize = new System.Drawing.Size(787, 649);
             this.Controls.Add(this.tcMail);
             this.Name = "PictureView";
-            this.Text = "PictureView";
+            this.Text = "PictureView v1.0";
             this.tcMail.ResumeLayout(false);
             this.tbPictureView1.ResumeLayout(false);
             this.tbPictureView1.PerformLayout();
@@ -973,6 +971,7 @@
         private System.Windows.Forms.Label labBody;
         private System.Windows.Forms.TextBox tbSendMail;
         private System.Windows.Forms.Button btnSendMail;
+        private System.Windows.Forms.Button button1;
     }
 }
 

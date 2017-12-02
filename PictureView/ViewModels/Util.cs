@@ -14,7 +14,7 @@ namespace PictureView.ViewModels
     {
        public static LogErr mylog = new LogErr();
 
-        #region Resize image
+#region Resize image
 
         public static void SaveImage(string imagePath, string savedName, string savedPath, int width = 0, int height = 0)
         {
@@ -319,7 +319,7 @@ namespace PictureView.ViewModels
 #endregion
 
 #region Find bookmark from .ini file        
-        public string FindBookmarkMail(string Parametar)
+        public string FindBookmarkIni(string FileName, string Parametar)
         {
             string[] bookmark;
             string uslov;
@@ -327,7 +327,7 @@ namespace PictureView.ViewModels
 
             try
             {
-                bookmark = File.ReadAllLines(Application.StartupPath + "\\" + "MailSettings.ini");
+                bookmark = File.ReadAllLines(Application.StartupPath + "\\" + FileName);
 
                 foreach (var onebookmark in bookmark)
                 {
@@ -339,22 +339,22 @@ namespace PictureView.ViewModels
             }
             catch (Exception err)
             {
-                LogErr.log(err.StackTrace + "++++++++" + err.Message, "FindBookmarkMail");
+                LogErr.log(err.StackTrace + "++++++++" + err.Message, "FindBookmarkIni");
                 //throw;
             }
             return rezultat;
         }
         #endregion
 
-        #region Send mail
+#region Send mail
         //metoda koja vrši slanje email poruke
         public void SendMail(string from, string fromName, ArrayList to, string subject, string messageBody)
         {
             SmtpClient emailClient;
             try
             {
-                emailClient = new SmtpClient(FindBookmarkMail("MAILSERVER"));
-                emailClient.Port = Convert.ToInt32(FindBookmarkMail("MAILPORT"));
+                emailClient = new SmtpClient(FindBookmarkIni("MailSettings.ini", "MAILSERVER"));
+                emailClient.Port = Convert.ToInt32(FindBookmarkIni("MailSettings.ini", "MAILPORT"));
 
                 // Prepare the MailMessage contents
                 MailMessage message = new MailMessage();
@@ -372,7 +372,7 @@ namespace PictureView.ViewModels
                 //message.BodyEncoding = System.Text.Encoding.UTF8;
                 //message.SubjectEncoding = System.Text.Encoding.UTF8;
 
-                emailClient.Credentials = new System.Net.NetworkCredential(FindBookmarkMail("MAILUSER"), FindBookmarkMail("MAILPASSWORD"));
+                emailClient.Credentials = new System.Net.NetworkCredential(FindBookmarkIni("MailSettings.ini", "MAILUSER"), FindBookmarkIni("MailSettings.ini", "MAILPASSWORD"));
                 emailClient.Send(message);
 
             }
