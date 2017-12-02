@@ -414,5 +414,6 @@ namespace PictureView
                 tbNotesSynchronization.Refresh();
             }
         }
+
     }
 }

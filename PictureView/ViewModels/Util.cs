@@ -93,7 +93,7 @@ namespace PictureView.ViewModels
 
                     for (int j = 0; j < newFiles.Count; j++)
                     {
-                        lScanFTP.Add(new Tuple<string, string>(newFiles[j], fld + newFiles[j]));
+                        lScanFTP.Add(new Tuple<string, string>(newFiles[j].ToUpper(), fld + newFiles[j]));
                     }
                 }
             }
@@ -130,7 +130,7 @@ namespace PictureView.ViewModels
                 FileInfo[] Files = d.GetFiles("*." + Extension);
                 foreach (FileInfo file in Files)
                 {
-                    lScanDestination.Add(file.Name);
+                    lScanDestination.Add(file.Name.ToUpper());
                 }
             }
             catch(Exception err)
@@ -220,10 +220,7 @@ namespace PictureView.ViewModels
 
                     foreach (var element in query)
                     {
-                        //MessageBox.Show(element.Item2);
-                        //MessageBox.Show(Path + "\\" + element.Item1);
-
-                        ftpClient.DownloadFile(element.Item2, Path + "\\" + element.Item1);
+                        ftpClient.DownloadFile(element.Item2, Path + "\\" + element.Item2.Substring(element.Item2.LastIndexOf('/')) );
                         Count += 1;
                     }
                 }
