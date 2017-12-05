@@ -316,7 +316,52 @@ namespace PictureView.ViewModels
                 return 0;
             }
         }
+        #endregion
+
+#region Missing picture
+        public static int MissingPicture(List<string> ERPItem, List<string> Destination, String Path)
+        {
+            List<string> lMissingPicture;
+
+            if (ERPItem.Count == 0)
+            {
+                MessageBox.Show("ERP item is empty");
+                return 0;
+            }
+
+            if (Destination.Count == 0)
+            {
+                MessageBox.Show("Destination item is empty");
+                return 0;
+            }
+
+            if (Path == String.Empty)
+            {
+                MessageBox.Show("Destination Missing path is empty");
+                return 0;
+            }
+
+            if (!File.Exists(Path))
+            {
+                FileStream fs = new FileStream(Path, FileMode.CreateNew);
+                fs.Close();
+            }
+
+            try
+            {
+                lMissingPicture = ERPItem.Except(Destination).ToList();
+                File.WriteAllLines(Path, lMissingPicture);
+                return lMissingPicture.Count;
+            }
+            catch(Exception err)
+            {
+                LogErr.log(err.StackTrace + "++++++++" + err.Message, "MissingPicture");
+                return 0;
+            }
+
+        }
 #endregion
+
 
 #region Find bookmark from .ini file        
         public string FindBookmarkIni(string FileName, string Parametar)
@@ -344,7 +389,7 @@ namespace PictureView.ViewModels
             }
             return rezultat;
         }
-        #endregion
+#endregion
 
 #region Send mail
         //metoda koja vrši slanje email poruke

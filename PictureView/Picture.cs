@@ -100,7 +100,7 @@ namespace PictureView
         List<string> lERPItem = new List<string>();
         List<string> lFTP = new List<string>();
         List<string> lFTPDownload = new List<string>();
-        List<string> lMissingPicture = new List<string>();
+        //List<string> lMissingPicture = new List<string>();
         List<string> lCopyPicture = new List<string>();
         String lFTPIP;
         String lFTPUser;
@@ -324,16 +324,14 @@ namespace PictureView
 
         private void btnMissingPicture_Click(object sender, EventArgs e)
         {
-            tbNotesSynchronization.Text = "Started";
-            tbNotesSynchronization.Refresh();
 
-            lMissingPicture = lERPItem.Except(lDestination).ToList();
-            File.WriteAllLines("C:\\Temp\\Test1234.txt", lMissingPicture);
+            SetNotes("Started Missing picture");
 
-            tbCountMissingPicture.Text = lMissingPicture.Count.ToString();
+            //lMissingPicture = lERPItem.Except(lDestination).ToList();
+            
+            tbCountMissingPicture.Text = Util.MissingPicture(lERPItem, lDestination, tbDestinationMissing.Text).ToString();
 
-            tbNotesSynchronization.Text = "END";
-            tbNotesSynchronization.Refresh();
+            SetNotes("Missing picture END");
         }
 
         private void rbBUZZ_CheckedChanged(object sender, EventArgs e)
@@ -425,8 +423,7 @@ namespace PictureView
             tbResWidth.Text = myFunctions.FindBookmarkIni("PictureView.ini", "RESIZEWIDTH");
             tbResHeight.Text = myFunctions.FindBookmarkIni("PictureView.ini", "RESIZEHEIGHT");
 
-            //kupljenje neophodnih parametara za slanje emaila
-            tbMailServer.Text = myFunctions.FindBookmarkIni("MailSettings.ini", "MAILSERVER");
+            //kupljenje neophodnih parametara za slanje emaila          tbMailServer.Text = myFunctions.FindBookmarkIni("MailSettings.ini", "MAILSERVER");
             tbMailServerPort.Text = myFunctions.FindBookmarkIni("MailSettings.ini", "MAILPORT");
             tbFrom.Text = myFunctions.FindBookmarkIni("MailSettings.ini", "MAILFROM");
             tbFromName.Text = myFunctions.FindBookmarkIni("MailSettings.ini", "MAILFROMNAME");
@@ -435,6 +432,14 @@ namespace PictureView
             tbBody.Text = myFunctions.FindBookmarkIni("MailSettings.ini", "MAILBODY01");
         }
 
+        private void btnDestinationMissing_Click(object sender, EventArgs e)
+        {
+            DialogResult result = fdSource.ShowDialog();
 
+            if (result == DialogResult.OK)
+            {
+                tbDestinationMissing.Text = fdSource.FileName;
+            }
+        }
     }
 }
