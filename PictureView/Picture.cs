@@ -54,8 +54,9 @@ namespace PictureView
                 int j = Util.ResizePicture(tbDestinationFTP.Text, "jpg", tbResizePicture.Text, Convert.ToInt32(tbResWidth.Text), Convert.ToInt32(tbResHeight.Text));
                 int k = Util.CopyResizedPicture(tbResizePicture.Text, tbDestination.Text, "jpg");
 
-                myToAL.Add(tbTo.Text);
-                myFunctions.SendMail(tbFrom.Text, tbFromName.Text, myToAL, tbSubject.Text + " SportVision", tbBody.Text + " " + k.ToString());
+                //myToAL.Add(tbTo.Text);
+                //myFunctions.SendMail(tbFrom.Text, tbFromName.Text, myToAL, tbSubject.Text + " SportVision", tbBody.Text + " " + k.ToString());
+                myFunctions.SendMail(tbFrom.Text, tbFromName.Text, tbTo.Text, tbSubject.Text + " SportVision", tbBody.Text + " " + k.ToString());
 
                 Environment.Exit(0);
             }
@@ -87,7 +88,8 @@ namespace PictureView
                 int k = Util.CopyResizedPicture(tbResizePicture.Text, tbDestination.Text, "jpg");
 
                 myToAL.Add(tbTo.Text);
-                myFunctions.SendMail(tbFrom.Text, tbFromName.Text, myToAL, tbSubject.Text + " BUZZ", tbBody.Text + " " + k.ToString());
+                //myFunctions.SendMail(tbFrom.Text, tbFromName.Text, myToAL, tbSubject.Text + " BUZZ", tbBody.Text + " " + k.ToString());
+                myFunctions.SendMail(tbFrom.Text, tbFromName.Text, tbTo.Text, tbSubject.Text + " BUZZ", tbBody.Text + " " + k.ToString());
 
                 Environment.Exit(0);
             }
@@ -366,23 +368,24 @@ namespace PictureView
         private void btnSendMail_Click(object sender, EventArgs e)
         {
             Util myFunct = new Util();
-            ArrayList myToAL = new ArrayList();
-            String mailTo;
+            //ArrayList myToAL = new ArrayList();
+            //String mailTo;
 
             try
             {
-                mailTo = tbTo.Text;
-                string[] clan1 = mailTo.Split(new char[] { ';' });
+                //mailTo = tbTo.Text;
+                //string[] clan1 = mailTo.Split(new char[] { ';' });
 
-                foreach (string clan in clan1)
-                {
-                    if (clan != string.Empty)
-                    {
-                        myToAL.Add(clan);
-                    }
-                }
+                //foreach (string clan in clan1)
+                //{
+                //    if (clan != string.Empty)
+                //    {
+                //        myToAL.Add(clan);
+                //    }
+                //}
 
-                myFunct.SendMail(tbFrom.Text, tbFromName.Text, myToAL, tbSubject.Text, tbBody.Text);
+                //myFunct.SendMail(tbFrom.Text, tbFromName.Text, myToAL, tbSubject.Text, tbBody.Text);
+                myFunct.SendMail(tbFrom.Text, tbFromName.Text, tbTo.Text, tbSubject.Text, tbBody.Text);
                 tbSendMail.Text = "Poslat mail.";
             }
             catch (Exception err)
