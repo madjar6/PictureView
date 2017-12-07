@@ -423,7 +423,8 @@ namespace PictureView
             tbResWidth.Text = myFunctions.FindBookmarkIni("PictureView.ini", "RESIZEWIDTH");
             tbResHeight.Text = myFunctions.FindBookmarkIni("PictureView.ini", "RESIZEHEIGHT");
 
-            //kupljenje neophodnih parametara za slanje emaila          tbMailServer.Text = myFunctions.FindBookmarkIni("MailSettings.ini", "MAILSERVER");
+            //kupljenje neophodnih parametara za slanje emaila          
+            tbMailServer.Text = myFunctions.FindBookmarkIni("MailSettings.ini", "MAILSERVER");
             tbMailServerPort.Text = myFunctions.FindBookmarkIni("MailSettings.ini", "MAILPORT");
             tbFrom.Text = myFunctions.FindBookmarkIni("MailSettings.ini", "MAILFROM");
             tbFromName.Text = myFunctions.FindBookmarkIni("MailSettings.ini", "MAILFROMNAME");

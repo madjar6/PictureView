@@ -45,6 +45,9 @@
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.tbPictureView2 = new System.Windows.Forms.TabPage();
+            this.btnDestinationMissing = new System.Windows.Forms.Button();
+            this.label11 = new System.Windows.Forms.Label();
+            this.tbDestinationMissing = new System.Windows.Forms.TextBox();
             this.tbCountCopyResizedPicture = new System.Windows.Forms.TextBox();
             this.btnCopyResizedPicture = new System.Windows.Forms.Button();
             this.rbSV = new System.Windows.Forms.RadioButton();
@@ -106,9 +109,6 @@
             this.tbMailServerPort = new System.Windows.Forms.TextBox();
             this.tbMailServer = new System.Windows.Forms.TextBox();
             this.labMailServer = new System.Windows.Forms.Label();
-            this.tbDestinationMissing = new System.Windows.Forms.TextBox();
-            this.label11 = new System.Windows.Forms.Label();
-            this.btnDestinationMissing = new System.Windows.Forms.Button();
             this.tcMail.SuspendLayout();
             this.tbPictureView1.SuspendLayout();
             this.tbPictureView2.SuspendLayout();
@@ -320,6 +320,32 @@
             this.tbPictureView2.Text = "Synchronization";
             this.tbPictureView2.UseVisualStyleBackColor = true;
             // 
+            // btnDestinationMissing
+            // 
+            this.btnDestinationMissing.Location = new System.Drawing.Point(438, 474);
+            this.btnDestinationMissing.Name = "btnDestinationMissing";
+            this.btnDestinationMissing.Size = new System.Drawing.Size(30, 23);
+            this.btnDestinationMissing.TabIndex = 63;
+            this.btnDestinationMissing.Text = "...";
+            this.btnDestinationMissing.UseVisualStyleBackColor = true;
+            this.btnDestinationMissing.Click += new System.EventHandler(this.btnDestinationMissing_Click);
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Location = new System.Drawing.Point(-3, 480);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(98, 13);
+            this.label11.TabIndex = 62;
+            this.label11.Text = "Destination Missing";
+            // 
+            // tbDestinationMissing
+            // 
+            this.tbDestinationMissing.Location = new System.Drawing.Point(100, 477);
+            this.tbDestinationMissing.Name = "tbDestinationMissing";
+            this.tbDestinationMissing.Size = new System.Drawing.Size(336, 20);
+            this.tbDestinationMissing.TabIndex = 61;
+            // 
             // tbCountCopyResizedPicture
             // 
             this.tbCountCopyResizedPicture.Enabled = false;
@@ -417,14 +443,14 @@
             // 
             this.tbResHeight.Location = new System.Drawing.Point(163, 402);
             this.tbResHeight.Name = "tbResHeight";
-            this.tbResHeight.Size = new System.Drawing.Size(57, 20);
+            this.tbResHeight.Size = new System.Drawing.Size(41, 20);
             this.tbResHeight.TabIndex = 50;
             // 
             // tbResWidth
             // 
             this.tbResWidth.Location = new System.Drawing.Point(100, 402);
             this.tbResWidth.Name = "tbResWidth";
-            this.tbResWidth.Size = new System.Drawing.Size(57, 20);
+            this.tbResWidth.Size = new System.Drawing.Size(41, 20);
             this.tbResWidth.TabIndex = 49;
             // 
             // label10
@@ -871,32 +897,6 @@
             this.labMailServer.TabIndex = 2;
             this.labMailServer.Text = "Mail server";
             this.labMailServer.TextAlign = System.Drawing.ContentAlignment.TopCenter;
-            // 
-            // tbDestinationMissing
-            // 
-            this.tbDestinationMissing.Location = new System.Drawing.Point(100, 477);
-            this.tbDestinationMissing.Name = "tbDestinationMissing";
-            this.tbDestinationMissing.Size = new System.Drawing.Size(336, 20);
-            this.tbDestinationMissing.TabIndex = 61;
-            // 
-            // label11
-            // 
-            this.label11.AutoSize = true;
-            this.label11.Location = new System.Drawing.Point(-3, 480);
-            this.label11.Name = "label11";
-            this.label11.Size = new System.Drawing.Size(98, 13);
-            this.label11.TabIndex = 62;
-            this.label11.Text = "Destination Missing";
-            // 
-            // btnDestinationMissing
-            // 
-            this.btnDestinationMissing.Location = new System.Drawing.Point(438, 474);
-            this.btnDestinationMissing.Name = "btnDestinationMissing";
-            this.btnDestinationMissing.Size = new System.Drawing.Size(30, 23);
-            this.btnDestinationMissing.TabIndex = 63;
-            this.btnDestinationMissing.Text = "...";
-            this.btnDestinationMissing.UseVisualStyleBackColor = true;
-            this.btnDestinationMissing.Click += new System.EventHandler(this.btnDestinationMissing_Click);
             // 
             // PictureView
             // 
