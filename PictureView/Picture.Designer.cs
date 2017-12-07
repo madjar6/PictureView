@@ -905,7 +905,7 @@
             this.ClientSize = new System.Drawing.Size(787, 649);
             this.Controls.Add(this.tcMail);
             this.Name = "PictureView";
-            this.Text = "PictureView v1.0";
+            this.Text = "PictureView v1.1";
             this.tcMail.ResumeLayout(false);
             this.tbPictureView1.ResumeLayout(false);
             this.tbPictureView1.PerformLayout();
