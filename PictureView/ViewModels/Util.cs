@@ -389,11 +389,12 @@ namespace PictureView.ViewModels
             }
             return rezultat;
         }
-#endregion
+        #endregion
 
-#region Send mail
+        #region Send mail
         //metoda koja vrši slanje email poruke
-        public void SendMail(string from, string fromName, ArrayList to, string subject, string messageBody)
+        //public void SendMail(string from, string fromName, ArrayList to, string subject, string messageBody)
+        public void SendMail(string from, string fromName, string to, string subject, string messageBody)
         {
             SmtpClient emailClient;
             try
@@ -409,16 +410,31 @@ namespace PictureView.ViewModels
                 MailAddress fromAddress = new MailAddress(from, fromName);
                 message.From = fromAddress;
 
+                string[] clan1 = to.Split(new char[] { ';' });
+
+                foreach (string clan in clan1)
+                {
+                    if (clan != string.Empty)
+                    {
+                        //myToAL.Add(clan);
+                        message.To.Add(new MailAddress(clan));
+                        emailClient.Credentials = new System.Net.NetworkCredential(FindBookmarkIni("MailSettings.ini", "MAILUSER"), FindBookmarkIni("MailSettings.ini", "MAILPASSWORD"));
+                        emailClient.Send(message);
+                        message.To.Clear();
+                    }
+                }
+
+
                 // Set the receivers' addresses
-                foreach (string address in to)
-                    message.To.Add(new MailAddress(address));
+                //foreach (string address in to)
+                //message.To.Add(new MailAddress(address));
 
                 // set the encoding for the message body
                 //message.BodyEncoding = System.Text.Encoding.UTF8;
                 //message.SubjectEncoding = System.Text.Encoding.UTF8;
 
-                emailClient.Credentials = new System.Net.NetworkCredential(FindBookmarkIni("MailSettings.ini", "MAILUSER"), FindBookmarkIni("MailSettings.ini", "MAILPASSWORD"));
-                emailClient.Send(message);
+                //emailClient.Credentials = new System.Net.NetworkCredential(FindBookmarkIni("MailSettings.ini", "MAILUSER"), FindBookmarkIni("MailSettings.ini", "MAILPASSWORD"));
+                //emailClient.Send(message);
 
             }
             catch (Exception err)
